@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"    
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.shop.dao.IProductMapper">
+	
+	<select id="findProductByCid" parameterType="Category" resultType="Product">
+		SELECT * FROM product INNER JOIN categorysecond 
+			WHERE product.`csid` = categorysecond.`csid`
+			AND categorysecond.`cid` = #{cid}
+	</select>
+	
+	<select id="findproductByCsid" parameterType="CategorySecond" resultType="Product">
+		select * from product where csid = #{csid}
+	</select>
+	
+	<select id="findHotProduct" resultType="Product">
+		select * from product where is_hot = 1;
+	</select>
+	
+	<select id="findNowProduct" resultType="Product">
+		SELECT * FROM product ORDER BY pdate DESC LIMIT 10
+	</select>
+	
+	<select id="findProductByPid" parameterType="Product" resultType="Product">
+		select * from product where pid = #{pid}
+	</select>
+</mapper>	

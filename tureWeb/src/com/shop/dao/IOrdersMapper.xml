@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"    
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.shop.dao.IOrdersMapper">
+	
+	<resultMap type="User" id="user">
+		<result property="uid" column="uid"/>
+		<result property="username" column="username"/>
+		<result property="name" column="name"/>
+		<result property="email" column="email"/>
+		<result property="phone" column="phone"/>
+		<result property="addr" column="addr"/>
+		<result property="state" column="state"/>
+	</resultMap>
+	
+	<resultMap type="Orders" id="orders">
+		<result property="oid" column="oid"/>
+		<result property="total" column="total"/>
+		<result property="ordertime" column="ordertime"/>
+		<result property="state" column="state"/>
+		<result property="name" column="name"/>
+		<result property="phone" column="phone"/>
+		<result property="addr" column="addr"/>
+		<result property="uid" column="uid"/>
+		<association property="user" javaType="User" resultMap="user"/>
+	</resultMap>
+	
+	<insert id="saveOrder" parameterType="Orders">
+		insert into orders (total,ordertime,state,name,phone,addr,uid) 
+			values(#{total},#{ordertime},#{state},#{name},#{phone},#{addr},#{uid})
+	</insert>
+	
+	<select id="findOrdersByorder" parameterType="Orders" resultMap="orders">
+		select * from orders where total = #{total} and uid = #{uid} and ordertime = #{ordertime} order by ordertime desc
+	</select>
+	
+	<select id="findMaxOid" resultType="Integer">
+		select max(oid) from orders
+	</select>
+	
+	<select id="findOidByUid" parameterType="User" resultMap="orders">
+		select * from orders where uid=#{uid} order by ordertime desc
+	</select>
+	
+	<update id="orderState" parameterType="Orders">
+		update orders set state = #{state}, ordertime=now() where oid = #{oid}
+	</update>	
+</mapper>

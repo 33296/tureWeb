@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"    
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shop.dao.IUserMapper">
+	
+	<resultMap type="User" id="user">
+		<result property="uid" column="uid"/>
+		<result property="username" column="username"/>
+		<result property="name" column="name"/>
+		<result property="email" column="email"/>
+		<result property="phone" column="phone"/>
+		<result property="addr" column="addr"/>
+		<result property="state" column="state"/>
+	</resultMap>
+	
+	<resultMap type="Orders" id="orders">
+		<result property="oid" column="oid"/>
+		<result property="total" column="total"/>
+		<result property="ordertime" column="ordertime"/>
+		<result property="state" column="state"/>
+		<result property="name" column="name"/>
+		<result property="phone" column="phone"/>
+		<result property="addr" column="addr"/>
+		<result property="uid" column="uid"/>
+		<association property="user" javaType="User" resultMap="user"/>
+	</resultMap>
+	
+	
+	
+	<insert id="add" parameterType="User" >
+		insert into user (username,password,name,email,phone,addr) 
+			values (#{username},#{password},#{name},#{email},#{phone},#{addr})
+	</insert>
+	
+	<select id="login" parameterType="User" resultMap="user">
+		select * from user where username = #{username} and password = #{password}
+	</select>
+	
+	<select id="findUserByUsername" parameterType="User" resultMap="user">
+		select * from user where username = #{username}
+	</select>
+	
+	<select id="findOrderByUid" parameterType="User" resultMap="orders">
+		select * from orders where uid = #{uid}
+	</select>
+	
+</mapper>

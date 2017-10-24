@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"    
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.shop.dao.ICategorySecondMapper">
+	
+	<select id="castegorySeconds" resultType="CategorySecond">
+		select * from categorysecond
+	</select>
+	
+	<select id="queryCategorySecondByCid" resultType="CategorySecond" parameterType="Category">
+		select * from categorysecond where cid=#{cid}
+	</select>
+</mapper>

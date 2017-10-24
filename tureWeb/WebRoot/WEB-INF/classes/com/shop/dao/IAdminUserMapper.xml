@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"    
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shop.dao.IAdminUserMapper">
+	
+	<select id="login" parameterType="AdminUser" resultType="AdminUser">
+		select * from adminuser where username = #{username} and password = #{password}
+	</select>
+	
+	<select id="findAllUser" resultType="User">
+		select * from user
+	</select>
+	
+	<select id="findUserByUid" resultType="User" parameterType="User">
+		select * from user where uid=#{uid}
+	</select>
+	<update id="editUser" parameterType="User">
+		update user set username=#{username}, password=#{password}, name=#{name}, email=#{email}, phone=#{phone}, addr=#{addr} where uid = #{uid}
+	</update>
+	
+	<delete id="deleteUser" parameterType="User">
+		delete from user where uid=#{uid}
+	</delete>
+	
+	<select id="findAllAdminCategory" resultType="Category">
+		select * from category
+	</select>
+	
+	<insert id="saveCategory" parameterType="Category">
+		insert into category (cname) value (#{cname})
+	</insert>
+	
+	<select id="findCategoryByCid" parameterType="Category" resultType="Category">
+		select * from category where cid=#{cid}
+	</select>
+	
+	<update id="editCategory" parameterType="Category">
+		update category set cname=#{cname} where cid=#{cid}
+	</update>
+	
+	<delete id="deleteCategory" parameterType="Category">
+		delete from category where cid=#{cid}
+	</delete>
+	
+	<select id="findAllCategorySecond" resultType="CategorySecond">
+		select * from categorysecond 
+	</select>
+	
+	<insert id="saveCategorySecond" parameterType="CategorySecond">
+		insert into categorysecond (csname,cid) values (#{csname}, #{cid})
+	</insert>
+	
+	<select id="findCategorySecondByCsid" parameterType="CategorySecond" resultType="CategorySecond">
+		select * from categorysecond where csid=#{csid}
+	</select>
+	
+	<update id="editCategorySecond" parameterType="CategorySecond">
+		update categorysecond set csname=#{csname}, cid=#{cid} where csid=#{csid}
+	</update>
+	
+	<delete id="deleteCategorySecond" parameterType="CategorySecond">
+		delete from categorysecond where csid=#{csid}
+	</delete>
+	
+	<select id="findAllProduct" resultType="Product">
+		select * from product
+	</select>
+	
+	<select id="queryProductByCsid" parameterType="CategorySecond" resultType="Product">
+		select * from product where csid=#{csid}
+	</select>
+	
+	<insert id="saveProduct" parameterType="Product">
+		insert into product (pname, is_hot, market_price, shop_price, image, csid, pdesc) 
+			values(#{pname}, #{is_hot}, #{market_price}, #{shop_price}, #{image}, #{csid}, #{pdesc})
+	</insert>
+	
+	<select id="findAdminProductByPid" parameterType="Product" resultType="Product">
+		select * from product where pid = #{pid}
+	</select>
+	
+	<update id="editProduct" parameterType="Product">
+		update product set pname=#{pname}, is_hot=#{is_hot}, market_price=#{market_price}, 
+			shop_price=#{shop_price}, image=#{image}, csid=#{csid}, pdesc=#{pdesc} where pid=#{pid}
+	</update>
+	
+	<delete id="deleteProduct" parameterType="Product">
+		delete from product where pid=#{pid}
+	</delete>
+	
+	<select id="findAllAdminOrder" resultType="Orders">
+		select * from orders
+	</select>
+	
+	<update id="updateAdminOrderState" parameterType="Orders">
+		update orders set state=3, ordertime=now() where oid=#{oid}
+	</update>
+</mapper>

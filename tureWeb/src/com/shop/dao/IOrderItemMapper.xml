@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"    
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.shop.dao.IOrderItemMapper">
+	<!-- 产品和订单对象属性 -->
+	<resultMap id="orderItem" type="OrderItem">
+		 <result property="itemid" column="itemid"/>
+		 <result property="count" column="count"/>
+		 <result property="subtotal" column="subtotal"/>
+		
+		 <association property="product" javaType="Product">
+			<result property="pid" column="pid"/>
+			<result property="is_hot" column="is_hot"/>
+			<result property="market_price" column="gradeName"/>
+			<result property="pdate" column="pdate"/>
+			<result property="pdesc" column="pdesc"/>
+			<result property="pname" column="pname"/>
+			<result property="shop_price" column="shop_price"/>
+			<result property="csid" column="csid"/>
+			<result property="image" column="image"/>
+		 </association>
+		 
+		 <association property="orders" javaType="Orders">
+		 	<result property="oid" column="oid"/>
+			<result property="total" column="total"/>
+			<result property="ordertime" column="gradeName"/>
+			<result property="state" column="state"/>
+			<result property="name" column="name"/>
+			<result property="phone" column="phone"/>
+			<result property="addr" column="addr"/>
+		 </association>
+	</resultMap>
+	
+	
+	<select id="orderItemList" resultMap="orderItem">
+		select o.*,p.* from orderItem o
+		join product p on o.pid=p.pid 
+		ORDER BY o.oid DESC
+	</select>
+	
+	<select id="queryOrderItemByOid" parameterType="Orders" resultMap="orderItem">
+		select o.*,p.* from orderitem o join product p on o.pid=p.pid where oid=#{oid} ORDER BY oid DESC
+		<!-- select * from orderitem where oid=#{oid} -->
+	</select>
+	
+	<insert id="saveOrderItem" parameterType="OrderItem">
+		insert into orderitem (oid, count, subtotal, pid) values(#{oid},#{count},#{subtotal},#{pid})
+	</insert>
+	
+</mapper>

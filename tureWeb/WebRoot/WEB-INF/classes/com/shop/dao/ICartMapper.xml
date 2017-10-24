@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"    
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.shop.dao.ICartMapper">
+	
+	<resultMap type="Product" id="product">
+		<result property="pid" column="pid"/>
+		<result property="pname" column="pname"/>
+		<result property="market_price" column="market_price"/>
+		<result property="shop_price" column="shop_price"/>
+		<result property="image" column="image"/>
+		<result property="pdesc" column="pdesc"/>
+		<result property="is_hot" column="is_hot"/>
+		<result property="pdate" column="pdate"/>
+		<result property="csid" column="csid"/>
+	</resultMap>
+	
+	<resultMap type="Cart" id="cart">
+		<result property="pid" column="pid"/>
+		<result property="uid" column="uid"/>
+		<result property="count" column="count"/>
+		<association property="product" javaType="Product" resultMap="product"/>
+	</resultMap>
+	
+	<insert id="addCart" parameterType="Cart">
+		insert into cart(pid,count,uid) values(#{pid},#{count},#{uid}) 
+	</insert>
+	
+	<select id="queyCartByPid" resultMap="cart" parameterType="Cart">
+		select * from cart inner join product where cart.pid = product.pid 
+		and uid = #{uid}
+		and cart.pid = #{pid}
+	</select>
+	
+	<select id="cartList" resultMap="cart">
+		select * from cart inner join product where cart.pid = product.pid and uid = #{uid}
+	</select>
+	
+	<update id="addAgain" parameterType="Cart">
+		update cart set count = #{count} where pid = #{pid} and uid = #{uid}
+	</update>
+	
+	<delete id="clearCart" parameterType="Cart">
+		delete from cart where uid = #{uid}
+	</delete>
+	
+	<delete id="removeCart" parameterType="Cart">
+		delete from cart where uid = #{uid} and pid = #{pid}
+	</delete>
+</mapper>
